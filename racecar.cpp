@@ -7,3 +7,6 @@ void Racecar::show_car() {
 	engine.show_engine();
 	cout << chasis << endl;
 }
+string Racecar::print_chasis() {
+	return chasis;
+}

@@ -10,4 +10,5 @@ public:
 	Racecar(Engine engine, string chasis);
 	// Racecar(string manufacturer, string type, int hp, string chasis);
 	void show_car();
+	string print_chasis();
 };
