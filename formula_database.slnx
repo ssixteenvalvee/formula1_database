@@ -3,5 +3,5 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
-  <Project Path="formula_database.vcxproj" />
+  <Project Path="formula_database.vcxproj" Id="f48c852e-9b5a-4ee3-ab0a-043025961f99" />
 </Solution>

@@ -8,5 +8,5 @@ private:
 	int horsepower;
 public:
 	Engine(std::string manufacturer, std::string type, int horsepower);
-	void show_engine() const;
+	void show_engine();
 };
