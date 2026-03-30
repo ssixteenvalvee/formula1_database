@@ -6,7 +6,7 @@
 #include <fstream>
 #include <filesystem>
 
-using std::cin, std::cout, std::endl, std::vector;
+using std::cin, std::cout, std::endl, std::vector, std::string;
 namespace fs = std::filesystem;
 Driver d1("max_verstappen", 4, 22, 33);
 Driver d2("kimi_antonelli", 0, 2, 2);
@@ -25,33 +25,33 @@ int main()
 		cout << "Directory is not found. Do something.\n";
 		return 0;
 	}
-	vector<string> seasons;
+	vector<string> seasons_str;
 	for (const auto& dir : fs::directory_iterator(basePath)) {
 		if (dir.is_directory()) {
-			seasons.push_back(dir.path().filename().string());
+			seasons_str.push_back(dir.path().filename().string());
 		}
 	}
-	if (seasons.empty()) {
+	if (seasons_str.empty()) {
 		cout << "There is no data" << endl;
 		return 0;
 	}
 	cout << "Please, choose the number of the season:" << endl;
 	int cnt = 1;
-	for (auto& option : seasons) {
+	for (auto& option : seasons_str) {
 		cout << cnt << ". " << option << endl;
 		cnt++;
 	}
-
-	/*после выбора сезона открывается поток на чтение для
-	всех .txt файлов с информацией. Затем вся информация
-	"разлетается по классам" и в конце объединяется в общую
-	структуру, для последующей модификации или просмотра.
-	В конце, если data изменена, файл перезаписывается.
-	Иначе просто закрывается.
-	Это опуская тот факт, что ещё необходима куча способов
-	взаимодействовать с полученной информацией.*/
+	int choice;
+	cin >> choice;
+	while (choice > seasons_str.size() || choice < 0) {
+		cout << "Wrong Format" << endl;
+		cin >> choice;
+	}
+	fs::path Path = basePath/seasons_str[choice - 1];
 	
 	Team red_bull = build_team();
 	red_bull.show_team();
+	d1.print_name();
+	d2.show_info();
 	return 0;
 }
