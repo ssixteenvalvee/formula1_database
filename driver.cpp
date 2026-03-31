@@ -1,7 +1,7 @@
 #include "Driver.h"
 #include <iostream>
 
-Driver::Driver(string n, int t, int w, int pp) : name(n), titles(t), wins(w), pole_pos(pp) {}
+Driver::Driver(string n, int id, int t, int w, int pp) : name(n), driver_id(id), titles(t), wins(w), pole_pos(pp) {}
 void Driver::show_info() {
 	std::cout << name + " has such achievements:" << std::endl;
 	std::cout << "titles: " << titles << std::endl;

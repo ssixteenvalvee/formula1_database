@@ -8,8 +8,6 @@
 
 using std::cin, std::cout, std::endl, std::vector, std::string;
 namespace fs = std::filesystem;
-Driver d1("max_verstappen", 4, 22, 33);
-Driver d2("kimi_antonelli", 0, 2, 2);
 
 Team build_team() {
 	Engine eng1("Honda", "V6", 1040);
@@ -48,10 +46,22 @@ int main()
 		cin >> choice;
 	}
 	fs::path Path = basePath/seasons_str[choice - 1];
-	
-	Team red_bull = build_team();
-	red_bull.show_team();
-	d1.print_name();
-	d2.show_info();
+	vector<Driver> drivers;
+	vector<Team> teams;
+	std::ifstream in;
+	in.open("drivers.txt");
+	if (in.is_open()) {
+		string n, int id, int t, int w, int pp;
+		while (in >> n >> id >> t >> w >> pp) {
+			Driver t_d(n, id, t, w, pp);
+			drivers.push_back(t_d);
+		}
+	}
+	in.close();
+	in.open("teams.txt");
+	if (in.is_open()) {
+		// incorrect string n; Racecar c; Driver p1; Driver p2; int t, int w;
+
+	}
 	return 0;
 }
