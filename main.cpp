@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
-#define MAXPART 22 // in last few decades it is a maximum proportion of partiicipants in F1.
+#define MAXPART 34 // In the whole history of Formula 1 no more than 34 cars participated in the race. (1953, Germany).
 
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline;
 namespace fs = std::filesystem;
@@ -94,7 +94,7 @@ int main()
 		}
 	}
 	in.close();
-	in.open(Path / "driver.txt");
+	in.open(Path / "drivers.txt");
 	if (in.is_open()) { // driver: id, name, titles, wins, pole positions.
 		int id, t, w, pp;
 		string name;
@@ -142,6 +142,9 @@ int main()
 	}
 	in.close();
 	print_engines(engines);
+	teams[3].show_team();
+	cars[4].show_car();
+	drivers[0].show_info();
 
 	return 0;
 }

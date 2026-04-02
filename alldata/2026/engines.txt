@@ -1,2 +1,6 @@
-0,Honda,V6,1040
-1,Ferrari,V6,1010
+0,Alpine_Racing,V6_turbo_hybrid,830
+1,Audi,V6_turbo_hybrid,850
+2,Ferrari,V6_turbo_hybrid,840
+3,Honda_Racing_Corporation,V6_turbo_hybrid,835
+4,Mercedes-AMG_High_Performance_Powertrains,V6_turbo_hybrid,845
+5,Red_Bull_Ford,V6_turbo_hybrid,850
