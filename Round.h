@@ -1,11 +1,13 @@
 #pragma once
-#include <vector>
 #include <iostream>
+#include <Driver.h>
+#include <Team.h>
+#define MAXPART 34
 
 class Round {
 private:
-	std::string place; // japan_suzuka_circuit
-	std::string date; // 28-03-26
-	std::vector<int> drivers_points;
-	std::vector<int> drivers_status; // F, DNF, DSQ, DNS
+	int id; // in order
+	std::string place; // Russia_Sochi, Belgium_Spa-Francorchamps, etc
+	std::string date; // dd-mm-yyyy;
+	std::vector places_and_scores(34); // i == place, including 0. vector[i] == score.
 };
