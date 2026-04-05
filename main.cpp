@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Racecar.h"
 #include "Team.h"
+#include "Round.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -51,10 +52,12 @@ int main()
 	vector<Racecar> cars;
 	vector<Driver> drivers;
 	vector<Team> teams; // engine -> car -> team (+ driver) -> round info.
+	vector<Round> rounds;
 	engines.reserve(MAXPART);
 	cars.reserve(MAXPART);
 	drivers.reserve(MAXPART);
 	teams.reserve(MAXPART);
+	rounds.reserve(MAXPART);
 	std::ifstream in;
 	string line;
 	in.open(Path / "engines.txt");
@@ -141,10 +144,30 @@ int main()
 		} // Fix.
 	}
 	in.close();
-	print_engines(engines);
-	teams[3].show_team();
-	cars[4].show_car();
-	drivers[0].show_info();
-
+	in.open(Path / "rounds.txt");
+if (in.is_open()) {
+    int id;
+    string place, date;
+    vector<int> positions;
+    positions.reserve(MAXPART);
+    string line;
+    while (getline(in, line)) {
+        if (line.empty()) continue;
+        std::istringstream ss(line);
+        string token;
+        getline(ss, token, ','); id = stoi(token);
+		getline(ss, token, ','); place = token;
+        getline(ss, token, ','); date = token;
+        positions.clear();
+        while (getline(ss, token, ',')) {
+            positions.push_back(stoi(token));
+        }
+		Round round(id, place, date, positions);
+		rounds.push_back(round);
+    }
+}
+	in.close();
+	rounds[0].give_date(1);
+	int p = rounds[0].give_pos_points(1); cout << p;
 	return 0;
 }
