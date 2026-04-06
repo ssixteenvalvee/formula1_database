@@ -3,6 +3,7 @@
 #include "Racecar.h"
 #include "Team.h"
 #include "Round.h"
+#include "Season.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -11,12 +12,6 @@
 
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline;
 namespace fs = std::filesystem;
-
-void print_engines(std::vector<Engine> &data) {
-	for (Engine& d : data) {
-		d.show_engine();
-	}
-}
 
 int main()
 {
