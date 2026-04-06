@@ -15,12 +15,12 @@ namespace fs = std::filesystem;
 
 class Season {
 private:
-	vector<Engine> engines(MAXPART);
-	vector<Driver> drivers(MAXPART);
-	vector<Racecar> cars(MAXPART;
-	vector<Team> teams(MAXPART);
-	vector<Round> rounds(MAXPART);
+	vector<Engine> engines;
+	vector<Driver> drivers;
+	vector<Racecar> cars;
+	vector<Team> teams;
+	vector<Round> rounds;
 public:
-	Season(vector<Engine> engs, vector<Driver> drvrs,vector<Racecar> cars, vector<Team> teams, vector<Round> rnds) : engines(engs), drivers(drvrs), cars(cars), teams(teams), rounds(rnds) {}
+	Season(vector<Engine> engs, vector<Driver> drvrs, vector<Racecar> cars, vector<Team> teams, vector<Round> rnds);
 	void ScanData(fs::path Path);
 };
