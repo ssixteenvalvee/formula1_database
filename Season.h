@@ -20,6 +20,7 @@ private:
 	vector<Racecar> cars;
 	vector<Team> teams;
 	vector<Round> rounds;
+	vector<int> points = { 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 };
 public:
 	Season(vector<Engine> engs, vector<Driver> drvrs, vector<Racecar> cars, vector<Team> teams, vector<Round> rnds);
 	void ScanData(fs::path Path);

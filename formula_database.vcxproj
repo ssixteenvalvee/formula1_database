@@ -132,6 +132,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="racecar.cpp" />
     <ClCompile Include="round.cpp" />
+    <ClCompile Include="season.cpp" />
     <ClCompile Include="team.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -139,6 +140,7 @@
     <ClInclude Include="Driver.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Round.h" />
+    <ClInclude Include="Season.h" />
     <ClInclude Include="Team.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

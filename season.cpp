@@ -9,7 +9,9 @@
 #include <sstream>
 #include <filesystem>
 
-Season::Season(vector<Engine> engs, vector<Driver> drvrs, vector<Racecar> cars, vector<Team> teams, vector<Round> rnds) : : engines(engs), drivers(drvrs), cars(cars), teams(teams), rounds(rnds) {}
+using std::cin, std::cout, std::endl, std::vector, std::string, std::getline;
+
+Season::Season(vector<Engine> engs, vector<Driver> drvrs, vector<Racecar> cars, vector<Team> teams, vector<Round> rnds) : engines(engs), drivers(drvrs), cars(cars), teams(teams), rounds(rnds) {}
 void Season::ScanData(fs::path Path) {
 	std::ifstream in;
 	string line;
@@ -120,4 +122,5 @@ void Season::ScanData(fs::path Path) {
 		}
 	}
 	in.close();
+	cout << "Scanning succesful" << endl;
 }

@@ -55,7 +55,5 @@ int main()
 	rounds.reserve(MAXPART);
 	Season season(engines, drivers, cars, teams, rounds);
 	season.ScanData(Path);
-	rounds[0].give_date(1);
-	int p = rounds[0].give_pos_points(1); cout << p;
 	return 0;
 }
