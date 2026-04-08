@@ -42,7 +42,9 @@ int main()
 		cout << "Wrong Format" << endl;
 		cin >> choice;
 	}
+	
 	fs::path Path = basePath/seasons_str[choice - 1];
+	/*
 	vector<Engine> engines;
 	vector<Racecar> cars;
 	vector<Driver> drivers;
@@ -53,7 +55,13 @@ int main()
 	drivers.reserve(MAXPART);
 	teams.reserve(MAXPART);
 	rounds.reserve(MAXPART);
-	Season season(engines, drivers, cars, teams, rounds);
+	*/
+	Season season;
 	season.ScanData(Path);
+	while (true) {
+		cout << "Enter driver id, and round:";
+		int x, y; cin >> x >> y;
+		if (season.CalcPoints(x, y, true) != -1) break;
+	}
 	return 0;
 }

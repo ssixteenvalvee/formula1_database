@@ -16,6 +16,7 @@ std::string Round::give_date(int show) {
 	return date;
 }
 int Round::give_pos_points(int position) {
+	if (position > 10) return 0;
 	if (position > 0 && position <= MAXPART)
 		return points[position - 1];
 	else {
@@ -23,16 +24,15 @@ int Round::give_pos_points(int position) {
 		return -1;
 	}
 }
-/*
-NamePosStruct Round::give_position(int driver_id, int show = 0) {
-	if (driver_id > 34 || driver_id < 0) {
-		std::cout << "Wrong Format!" << std::endl;
-		std::cout << "There is no, such driver with id: " << driver_id << std::endl;
-		NamePosStruct namepos("NONE", -1);
-		return namepos;
+int Round::give_driver_place(int driver_id) {
+	if (driver_id >= 0 && driver_id < positions.size()) {
+		for (int id = 0; id < positions.size(); id++) {
+			if (positions[id] == driver_id) return id + 1;
+		}
+		std::cout << "Driver Unfound" << std::endl;
+		return -1;
 	}
-	for (int i = 0; i < MAXPART; i++) {
-
+	else {
+		std::cout << "Wrong Format" << std::endl;
 	}
 }
-*/

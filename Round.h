@@ -22,4 +22,5 @@ public:
 	std::string give_place(int show = 0);
 	std::string give_date(int show = 0);
 	int give_pos_points(int position);
+	int give_driver_place(int driver_id);
 };

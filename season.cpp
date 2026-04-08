@@ -4,6 +4,7 @@
 #include "Racecar.h"
 #include "Team.h"
 #include "Round.h"
+#include "Driver.h"
 #include "Season.h"
 #include <fstream>
 #include <sstream>
@@ -11,7 +12,8 @@
 
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline;
 
-Season::Season(vector<Engine> engs, vector<Driver> drvrs, vector<Racecar> cars, vector<Team> teams, vector<Round> rnds) : engines(engs), drivers(drvrs), cars(cars), teams(teams), rounds(rnds) {}
+//Season::Season() : engines(), drivers(), cars(), teams(), rounds() {}
+// Season::Season(vector<Engine> engs, vector<Driver> drvrs, vector<Racecar> cars, vector<Team> teams, vector<Round> rnds) {}
 void Season::ScanData(fs::path Path) {
 	std::ifstream in;
 	string line;
@@ -123,4 +125,28 @@ void Season::ScanData(fs::path Path) {
 	}
 	in.close();
 	cout << "Scanning succesful" << endl;
+}
+int Season::CalcPoints(int driver_id, int round_id, bool show) {
+	if (round_id > rounds.size()) {
+		cout << "Invalid number. Too big or to low." << endl;
+		return -1;
+	}
+	string name;
+	for (Driver& dr : drivers) {
+		if (driver_id == dr.give_id()) {
+			name = dr.give_name();
+			format_name(name);
+		}
+	}
+	if (round_id == -1) round_id = rounds.size();
+	int driver_points = 0;
+	string place;
+	for (int i = 0; i < round_id; i++) {
+		int position = rounds[i].give_driver_place(driver_id);
+		driver_points += rounds[i].give_pos_points(position);
+		if (i == round_id) place = rounds[i].give_place();
+		else if (round_id == -1) place = rounds[rounds.size()].give_place();
+	}
+	if (show == true) std::cout << name << " has " << driver_points << " points after " << place << " race." << std::endl;
+	return driver_points;
 }

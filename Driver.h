@@ -2,6 +2,7 @@
 #include <iostream>
 
 using std::string;
+string format_name(string &name); // to remove "_" and capitalize.
 class Driver {
 private:
 	int driver_id;
@@ -13,7 +14,7 @@ public:
 	Driver(int id, string name, int titles, int wins, int pole_pos);
 	void show_info();
 	int give_id();
-	string print_name();
+	string give_name();
 };
 /* Fast markup: (chtobi ne zabyt`)
 Stats from the .txt files should become a foundation for statistcs in "Round class"
