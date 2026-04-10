@@ -8,10 +8,44 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <functional>
 #define MAXPART 34 // In the whole history of Formula 1 no more than 34 cars participated in the race. (1953, Germany).
 
-using std::cin, std::cout, std::endl, std::vector, std::string, std::getline;
+using std::cin, std::cout, std::endl, std::vector, std::string, std::getline, std::unordered_map;
 namespace fs = std::filesystem;
+using CommandHandler = std::function<void(std::istringstream&)>;
+vector<string> commands = { "CalcDP: calculate driver points" };
+
+void UserInteraction(Season& season) {
+	unordered_map<string, std::function<void()>> CommandList{
+		{"CalcDP",[&season]() {
+			int id, round_id;
+			cout << "Enter number of the driver and round: (number space number)" << endl;
+			season.Print_Drivers();
+			cout << "\n\n";
+			season.Print_Rounds();
+			cin >> id >> round_id; cout << ">> ";
+			id--; round_id--;
+			season.CalcPoints(id, round_id, true);
+		}}
+	};
+	//
+	string line;
+	cout << "Enter the command.\nCommands:" << endl;
+	for (string& cm : commands) cout << cm;
+	cout << "\n";
+	while (getline(cin, line)) {
+		if (line == "stop") return;
+		cout << ">> ";
+		auto cmd = CommandList.find(line);
+		if (cmd != CommandList.end()) {
+			cmd->second();
+		}
+		else {
+			//cout << "Unknown command. Please try again." << endl;
+		}
+	}
+}
 
 int main()
 {
@@ -30,7 +64,7 @@ int main()
 		cout << "There is no data" << endl;
 		return 0;
 	}
-	cout << "Please, choose the number of the season:" << endl;
+	cout << ">> Please, choose the number of the season:" << endl;
 	int cnt = 1;
 	for (auto& option : seasons_str) {
 		cout << cnt << ". " << option << endl;
@@ -44,24 +78,8 @@ int main()
 	}
 	
 	fs::path Path = basePath/seasons_str[choice - 1];
-	/*
-	vector<Engine> engines;
-	vector<Racecar> cars;
-	vector<Driver> drivers;
-	vector<Team> teams; // engine -> car -> team (+ driver) -> round info.
-	vector<Round> rounds;
-	engines.reserve(MAXPART);
-	cars.reserve(MAXPART);
-	drivers.reserve(MAXPART);
-	teams.reserve(MAXPART);
-	rounds.reserve(MAXPART);
-	*/
 	Season season;
 	season.ScanData(Path);
-	while (true) {
-		cout << "Enter driver id, and round:";
-		int x, y; cin >> x >> y;
-		if (season.CalcPoints(x, y, true) != -1) break;
-	}
+	UserInteraction(season);
 	return 0;
 }

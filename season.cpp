@@ -150,3 +150,21 @@ int Season::CalcPoints(int driver_id, int round_id, bool show) {
 	if (show == true) std::cout << name << " has " << driver_points << " points after " << place << " race." << std::endl;
 	return driver_points;
 }
+void Season::Print_Drivers() {
+	int cnt = 1;
+	for (Driver& dr : drivers) {
+		cout << cnt << "." << dr.give_name() << " ";
+		if (cnt % 3 == 0) cout << "\n";
+		cnt++;
+	}
+	return;
+}
+void Season::Print_Rounds() {
+	int cnt = 1;
+	for (Round& r : rounds) {
+		cout << cnt << "." << r.give_place() << " ";
+		if (cnt % 3 == 0) cout << "\n";
+		cnt++;
+	}
+	return;
+}

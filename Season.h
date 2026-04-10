@@ -27,4 +27,6 @@ public:
 	// Season(vector<Engine> engs, vector<Driver> drvrs, vector<Racecar> cars, vector<Team> teams, vector<Round> rnds);
 	void ScanData(fs::path Path);
 	int CalcPoints(int driver_id, int round_id = -1, bool show = false);
+	void Print_Drivers();
+	void Print_Rounds();
 };
