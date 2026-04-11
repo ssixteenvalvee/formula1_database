@@ -9,6 +9,8 @@
 #include <fstream>
 #include <sstream>
 #include <filesystem>
+#include <iomanip>
+#define M1 -1
 
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline;
 
@@ -126,6 +128,9 @@ void Season::ScanData(fs::path Path) {
 	in.close();
 	cout << "Scanning succesful" << endl;
 }
+size_t Season::give_rounds_size() {
+	return rounds.size();
+}
 int Season::CalcPoints(int driver_id, int round_id, bool show) {
 	if (round_id > rounds.size()) {
 		cout << "Invalid number. Too big or to low." << endl;
@@ -150,21 +155,56 @@ int Season::CalcPoints(int driver_id, int round_id, bool show) {
 	if (show == true) std::cout << name << " has " << driver_points << " points after " << place << " race." << std::endl;
 	return driver_points;
 }
-void Season::Print_Drivers() {
+void Season::PrintDrivers() {
 	int cnt = 1;
 	for (Driver& dr : drivers) {
-		cout << cnt << "." << dr.give_name() << " ";
+		string name = dr.give_name();
+		cout << cnt << "." << format_name(name) << std::setw(4) <<" ";
 		if (cnt % 3 == 0) cout << "\n";
 		cnt++;
 	}
 	return;
 }
-void Season::Print_Rounds() {
+void Season::PrintRounds() {
 	int cnt = 1;
 	for (Round& r : rounds) {
-		cout << cnt << "." << r.give_place() << " ";
+		string place = r.give_place();
+		cout << cnt << "." << format_name(place) << std::setw(4) << " ";
 		if (cnt % 3 == 0) cout << "\n";
 		cnt++;
 	}
 	return;
+}
+vector<int> Season::GiveSumPoints(int round_id) {
+	vector<int> sum_driver_points(drivers.size(), 0);
+	int maxRound = (round_id == -1) ? static_cast<int>(rounds.size()) : round_id;
+	for (int r = 0; r < maxRound; ++r) {
+		const vector<int>& positions = rounds[r].give_pos_vector();
+		for (size_t pos = 0; pos < positions.size(); ++pos) {
+			int driverId = positions[pos];
+			if (driverId >= 0 && driverId < static_cast<int>(drivers.size())) {
+				int points = rounds[r].give_pos_points(static_cast<int>(pos) + 1);
+				sum_driver_points[driverId] += points;
+			}
+		}
+	}
+	return sum_driver_points;
+}
+Driver Season::GiveLeaderDriver() {
+	vector<int> sum_dp = GiveSumPoints(-1);
+	int leader_points = M1;
+	int dr_id = M1;
+	for (int i = 0; i < sum_dp.size(); i++) {
+		if (leader_points < sum_dp[i]) {
+			leader_points = sum_dp[i];
+			dr_id = i;
+		}
+	}
+	for (Driver& dr : drivers) {
+		if (dr.give_id() == dr_id) return dr;
+	}
+	return Driver(1, "NONE", 0, 0, 0);
+}
+void Season::GiveWinnerEngine() {
+
 }

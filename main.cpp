@@ -14,25 +14,33 @@
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline, std::unordered_map;
 namespace fs = std::filesystem;
 using CommandHandler = std::function<void(std::istringstream&)>;
-vector<string> commands = { "CalcDP: calculate driver points" };
+vector<string> commands = { "CalcDP: Calculate driver points", "LeadDriver: Show leader of the season", "WinEngine: Show the most effective engine"};
 
 void UserInteraction(Season& season) {
 	unordered_map<string, std::function<void()>> CommandList{
 		{"CalcDP",[&season]() {
 			int id, round_id;
 			cout << "Enter number of the driver and round: (number space number)" << endl;
-			season.Print_Drivers();
+			season.PrintDrivers();
 			cout << "\n\n";
-			season.Print_Rounds();
+			season.PrintRounds();
 			cin >> id >> round_id; cout << ">> ";
-			id--; round_id--;
+			id--; round_id;
 			season.CalcPoints(id, round_id, true);
+			return;
+		}},
+		{"LeadDriver", [&season]() {
+			Driver leadr = season.GiveLeaderDriver();
+			cout << leadr.give_name() << " is a leader of the season" << " with " << season.CalcPoints(leadr.give_id(), season.give_rounds_size(), false) << " points." << endl;
+		}},
+		{"WinEngine", [&season]() {
+		
 		}}
 	};
 	//
 	string line;
-	cout << "Enter the command.\nCommands:" << endl;
-	for (string& cm : commands) cout << cm;
+	cout << "Enter the command:" << endl;
+	for (string& cm : commands) cout << "> " << cm << endl;
 	cout << "\n";
 	while (getline(cin, line)) {
 		if (line == "stop") return;

@@ -19,6 +19,7 @@ private:
 public:
 	Round(int id, std::string place, std::string date, std::vector<int> places);
 	int give_id();
+	std::vector<int> give_pos_vector();
 	std::string give_place(int show = 0);
 	std::string give_date(int show = 0);
 	int give_pos_points(int position);

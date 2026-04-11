@@ -1,5 +1,6 @@
 #include <iostream>
 #include "Round.h"
+#include "Driver.h"
 
 using std::string, std::vector;
 
@@ -7,9 +8,12 @@ Round::Round(int id, string p, string d, vector<int> pl) : id(id), place(p), dat
 int Round::give_id() {
 	return id;
 }
+std::vector<int> Round::give_pos_vector() {
+	return positions;
+}
 std::string Round::give_place(int show) {
 	if (show == 1) std::cout << place << std::endl;
-	return place;
+	return format_name(place);
 }
 std::string Round::give_date(int show) {
 	if (show == 1) std::cout << date << std::endl;
@@ -17,7 +21,7 @@ std::string Round::give_date(int show) {
 }
 int Round::give_pos_points(int position) {
 	if (position > 10) return 0;
-	if (position > 0 && position <= MAXPART)
+	if (position > 0 && position <= positions.size())
 		return points[position - 1];
 	else {
 		std::cout << "Wrong Format" << std::endl;

@@ -25,5 +25,5 @@ int Driver::give_id() {
 	return driver_id;
 }
 string Driver::give_name() {
-	return name;
+	return format_name(name);
 }

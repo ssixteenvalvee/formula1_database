@@ -24,9 +24,12 @@ private:
 	vector<int> points = { 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 };
 public:
 	Season() = default;
-	// Season(vector<Engine> engs, vector<Driver> drvrs, vector<Racecar> cars, vector<Team> teams, vector<Round> rnds);
+	size_t give_rounds_size();
 	void ScanData(fs::path Path);
 	int CalcPoints(int driver_id, int round_id = -1, bool show = false);
-	void Print_Drivers();
-	void Print_Rounds();
+	void PrintDrivers();
+	void PrintRounds();
+	vector<int> GiveSumPoints(int round_id = -1);
+	Driver GiveLeaderDriver();
+	void GiveWinnerEngine();
 };
