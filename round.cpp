@@ -38,5 +38,6 @@ int Round::give_driver_place(int driver_id) {
 	}
 	else {
 		std::cout << "Wrong Format" << std::endl;
+		return -1;
 	}
 }

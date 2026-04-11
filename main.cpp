@@ -14,17 +14,17 @@
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline, std::unordered_map;
 namespace fs = std::filesystem;
 using CommandHandler = std::function<void(std::istringstream&)>;
-vector<string> commands = { "CalcDP: Calculate driver points", "LeadDriver: Show leader of the season", "WinEngine: Show the most effective engine"};
+vector<string> commands = { "CalcDP: Calculate driver points", "LeadDriver: Show leader of the season", "DriverStats: Show driver stats.)", "WinEngine: Show the most effective engine"};
 
 void UserInteraction(Season& season) {
 	unordered_map<string, std::function<void()>> CommandList{
 		{"CalcDP",[&season]() {
 			int id, round_id;
 			cout << "Enter number of the driver and round: (number space number)" << endl;
-			season.PrintDrivers();
+			season.PrintDrivers(); // !!!
 			cout << "\n\n";
-			season.PrintRounds();
-			cin >> id >> round_id; cout << ">> ";
+			season.PrintRounds(); // !!!
+			cout << ">> "; cin >> id >> round_id; 
 			id--; round_id;
 			season.CalcPoints(id, round_id, true);
 			return;
@@ -32,6 +32,24 @@ void UserInteraction(Season& season) {
 		{"LeadDriver", [&season]() {
 			Driver leadr = season.GiveLeaderDriver();
 			cout << leadr.give_name() << " is a leader of the season" << " with " << season.CalcPoints(leadr.give_id(), season.give_rounds_size(), false) << " points." << endl;
+			cout << "Do you want more about this driver?" << "\n\tY/N" << "\n>> ";
+			string choice;
+			cin >> choice;
+			if (choice[0] == 'Y' || choice[0] == 'y') {
+				season.ShowDriverStat(leadr.give_id(), season.give_rounds_size());
+			}
+			return;
+		}},
+		{"DriverStats", [&season] {
+			int id, round;
+			cout << "Enter number of the driver and round: (number space number)" << endl;
+			season.PrintDrivers();
+			cout << "\n\n";
+			season.PrintRounds();
+			cout << ">> "; cin >> id >> round;
+			id--;
+			season.ShowDriverStat(id, round);
+			return;
 		}},
 		{"WinEngine", [&season]() {
 		

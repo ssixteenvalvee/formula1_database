@@ -14,12 +14,21 @@ string format_name(string &name) {
 	return name;
 }
 
-Driver::Driver(int id ,string n, int t, int w, int pp) : driver_id(id), name(n), titles(t), wins(w), pole_pos(pp) {}
+Driver::Driver(int id ,string n, int t, int w, int pp) : driver_id(id), name(n), titles(t), wins(w), points(pp) {}
+int Driver::give_wins() {
+	return wins;
+}
+int Driver::give_titles() {
+	return titles;
+}
+int Driver::give_points() {
+	return points;
+}
 void Driver::show_info() {
 	std::cout << name + " has such achievements:" << std::endl;
 	std::cout << "\ttitles: " << titles << std::endl;
 	std::cout << "\twins: " << wins << std::endl;
-	std::cout << "\tpole positions: " << pole_pos << std::endl;
+	std::cout << "\tpoints: " << points << std::endl;
 }
 int Driver::give_id() {
 	return driver_id;

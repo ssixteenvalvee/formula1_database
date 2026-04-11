@@ -205,6 +205,42 @@ Driver Season::GiveLeaderDriver() {
 	}
 	return Driver(1, "NONE", 0, 0, 0);
 }
-void Season::GiveWinnerEngine() {
+void Season::ShowDriverStat(int driver_id, int round_id) {
+	if (driver_id < 0 && driver_id >= drivers.size()) {
+		cout << "Incorrect Driver_id." << endl;
+		return;
+	}
+	else if (round_id < 0 && round_id > rounds.size()) {
+		cout << "Incorrect Round_id." << endl;
+		return;
+	}
+	int w = 0, pts = 0;
+	string place;
+	string date;
+	for (Driver& dr : drivers) {
+		if (dr.give_id() == driver_id) {
+			for (Round& r : rounds) {
+				if (r.give_id() >= round_id) break;
+				place = r.give_place();
+				date = r.give_date();
+				if (r.give_pos_vector()[0] == driver_id) w++;
+				int pos = 1;
+				for (int& id : r.give_pos_vector()) {
+					if (id == driver_id) {
+						pts += r.give_pos_points(pos);
+						break;
+					}
+					pos += 1;
 
+				}
+			}
+			cout << dr.give_name() << " has such achievements:" << endl;
+			cout << dr.give_titles() << " titles, " << dr.give_points() + pts << " points, " << dr.give_wins() + w << " wins summary untill the " << place << ", " << date << endl;
+			return;
+		}
+	}
+	return;
+}
+Engine Season::GiveWinnerEngine() {
+	return Engine();
 }

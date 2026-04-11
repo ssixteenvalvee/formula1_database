@@ -9,9 +9,12 @@ private:
 	string name; //max_verstappen, ayrton_senna, niki_lauda
 	int titles;
 	int wins;
-	int pole_pos;
+	int points;
 public:
 	Driver(int id, string name, int titles, int wins, int pole_pos);
+	int give_wins();
+	int give_titles();
+	int give_points();
 	void show_info();
 	int give_id();
 	string give_name();

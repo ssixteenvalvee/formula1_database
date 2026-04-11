@@ -31,5 +31,6 @@ public:
 	void PrintRounds();
 	vector<int> GiveSumPoints(int round_id = -1);
 	Driver GiveLeaderDriver();
-	void GiveWinnerEngine();
+	void ShowDriverStat(int driver_id, int round_id);
+	Engine GiveWinnerEngine();
 };
