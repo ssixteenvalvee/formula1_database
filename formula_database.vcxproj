@@ -136,9 +136,9 @@
     <ClCompile Include="team.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Racecar.h" />
     <ClInclude Include="Driver.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="Racecar.h" />
     <ClInclude Include="Round.h" />
     <ClInclude Include="Season.h" />
     <ClInclude Include="Team.h" />

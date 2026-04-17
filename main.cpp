@@ -14,7 +14,7 @@
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline, std::unordered_map;
 namespace fs = std::filesystem;
 using CommandHandler = std::function<void(std::istringstream&)>;
-vector<string> commands = { "CalcDP: Calculate driver points", "LeadDriver: Show leader of the season", "DriverStats: Show driver stats.)", "WinEngine: Show the most effective engine"};
+vector<string> commands = { "CalcDP: Calculate driver points", "LeadDriver: Show leader of the season", "DriverStats: Show driver stats.", "WinEngine: Show the most effective engine"};
 
 void UserInteraction(Season& season) {
 	unordered_map<string, std::function<void()>> CommandList{
@@ -52,7 +52,15 @@ void UserInteraction(Season& season) {
 			return;
 		}},
 		{"WinEngine", [&season]() {
-		
+			Driver ldr = season.GiveLeaderDriver();
+			vector<Team> teams = season.GiveTeamsVect();
+			for (Team& team : teams) {
+				vector<Driver> twodrivers = team.GiveTeamDrivers();
+				if (twodrivers[0].give_id() == ldr.give_id() || twodrivers[1].give_id() == ldr.give_id()) {
+					team.GiveCar().GiveCarEngine().show_engine();
+				}
+			}
+			return;
 		}}
 	};
 	//

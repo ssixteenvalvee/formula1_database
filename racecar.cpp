@@ -16,3 +16,6 @@ int Racecar::give_id() {
 string Racecar::print_chasis() {
 	return chasis;
 }
+Engine Racecar::GiveCarEngine() {
+	return engine;
+}

@@ -10,3 +10,10 @@ void Team::show_team() {
 	cout << "\tSecond pilot: " << pilot_2.give_name() << endl;
 	cout << "\tTitles: " << titles << ", Wins: " << gp_wins << endl;
 }
+vector<Driver> Team::GiveTeamDrivers() {
+	vector<Driver> twodr = { pilot_1, pilot_2 };
+	return twodr;
+}
+Racecar Team::GiveCar() {
+	return car;
+}

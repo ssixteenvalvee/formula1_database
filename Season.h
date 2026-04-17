@@ -33,4 +33,5 @@ public:
 	Driver GiveLeaderDriver();
 	void ShowDriverStat(int driver_id, int round_id);
 	Engine GiveWinnerEngine();
+	vector<Team> GiveTeamsVect();
 };

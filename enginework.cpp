@@ -5,7 +5,7 @@ Engine::Engine(int engineid, std::string m, std::string t, int hp) : engine_id(e
 Engine::Engine() : engine_id(-1), manufacturer("NONE"), type("NONE"), horsepower(-1) {}
 
 void Engine::show_engine() {
-	std::cout << "engine:\n\t " << manufacturer << " " << type << " " << horsepower << std::endl;
+	std::cout << "Engine made by: " << manufacturer << " has a " << type << " layout. It's power is " << horsepower << " horsepower." << std::endl;
 }
 int Engine::give_id() {
 	return engine_id;

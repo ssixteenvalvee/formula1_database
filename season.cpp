@@ -244,3 +244,6 @@ void Season::ShowDriverStat(int driver_id, int round_id) {
 Engine Season::GiveWinnerEngine() {
 	return Engine();
 }
+vector<Team> Season::GiveTeamsVect() {
+	return teams;
+}
