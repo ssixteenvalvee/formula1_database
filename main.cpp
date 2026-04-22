@@ -1,6 +1,7 @@
 #include "Driver.h"
 #include "Engine.h"
 #include "Racecar.h"
+#include "utilities.h"
 #include "Team.h"
 #include "Round.h"
 #include "Season.h"
@@ -19,8 +20,9 @@ vector<string> commands = { "CalcDP: Calculate driver points", "LeadDriver: Show
 void UserInteraction(Season& season) {
 	unordered_map<string, std::function<void()>> CommandList{
 		{"CalcDP",[&season]() {
+			clearScreen();
 			int id, round_id;
-			cout << "Enter number of the driver and round: (number space number)" << endl;
+			cout << "	Enter number of the driver and round: (number space number)" << endl;
 			season.PrintDrivers(); // !!!
 			cout << "\n\n";
 			season.PrintRounds(); // !!!
@@ -41,8 +43,9 @@ void UserInteraction(Season& season) {
 			return;
 		}},
 		{"DriverStats", [&season] {
+			clearScreen();
 			int id, round;
-			cout << "Enter number of the driver and round: (number space number)" << endl;
+			cout << "	Enter number of the driver and round: (number space number)" << endl;
 			season.PrintDrivers();
 			cout << "\n\n";
 			season.PrintRounds();
@@ -61,22 +64,27 @@ void UserInteraction(Season& season) {
 				}
 			}
 			return;
+		}}, 
+		{"help", [&season]() {
+			clearScreen();
+			for (string& cm : commands) {
+				cout << "> " << cm << endl;
+			}
 		}}
 	};
 	//
 	string line;
-	cout << "Enter the command:" << endl;
-	for (string& cm : commands) cout << "> " << cm << endl;
-	cout << "\n";
+	cout << "Type 'help' to get available commands. Type 'stop' to exit.\n\n>> ";
 	while (getline(cin, line)) {
 		if (line == "stop") return;
-		cout << ">> ";
 		auto cmd = CommandList.find(line);
 		if (cmd != CommandList.end()) {
 			cmd->second();
+			cout << "	Enter the command:" << endl;
+			cout << ">> ";
 		}
 		else {
-			//cout << "Unknown command. Please try again." << endl;
+			// cout << "Unknown command. Please try again." << endl;
 		}
 	}
 }
@@ -98,13 +106,14 @@ int main()
 		cout << "There is no data" << endl;
 		return 0;
 	}
-	cout << ">> Please, choose the number of the season:" << endl;
+	cout << "	Please, choose the number of the season:" << endl;
 	int cnt = 1;
 	for (auto& option : seasons_str) {
 		cout << cnt << ". " << option << endl;
 		cnt++;
 	}
-	int choice;
+	int choice; 
+	cout << ">> ";
 	cin >> choice;
 	while (choice > seasons_str.size() || choice < 0) {
 		cout << "Wrong Format" << endl;

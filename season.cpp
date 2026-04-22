@@ -1,11 +1,12 @@
-#include <iostream>
-#include <vector>
+#include "utilities.h"
 #include "Engine.h"
 #include "Racecar.h"
 #include "Team.h"
 #include "Round.h"
 #include "Driver.h"
 #include "Season.h"
+#include <iostream>
+#include <vector>
 #include <fstream>
 #include <sstream>
 #include <filesystem>
@@ -126,7 +127,8 @@ void Season::ScanData(fs::path Path) {
 		}
 	}
 	in.close();
-	cout << "Scanning succesful" << endl;
+	clearScreen();
+	cout << "> Scanning succesful <" << endl;
 }
 size_t Season::give_rounds_size() {
 	return rounds.size();
