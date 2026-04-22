@@ -159,22 +159,28 @@ int Season::CalcPoints(int driver_id, int round_id, bool show) {
 }
 void Season::PrintDrivers() {
 	int cnt = 1;
+	string square(80, '=');
+	cout << square << endl;
 	for (Driver& dr : drivers) {
 		string name = dr.give_name();
 		cout << cnt << "." << format_name(name) << std::setw(4) <<" ";
 		if (cnt % 3 == 0) cout << "\n";
 		cnt++;
 	}
+	cout << "\n" << square << endl;
 	return;
 }
 void Season::PrintRounds() {
 	int cnt = 1;
+	string square(80, '-');
+	cout << square << endl;
 	for (Round& r : rounds) {
 		string place = r.give_place();
 		cout << cnt << "." << format_name(place) << std::setw(4) << " ";
 		if (cnt % 3 == 0) cout << "\n";
 		cnt++;
 	}
+	cout << square << endl;
 	return;
 }
 vector<int> Season::GiveSumPoints(int round_id) {

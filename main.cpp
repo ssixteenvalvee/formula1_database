@@ -32,7 +32,9 @@ void UserInteraction(Season& season) {
 			return;
 		}},
 		{"LeadDriver", [&season]() {
+			string square(90, '-');
 			Driver leadr = season.GiveLeaderDriver();
+			cout << square << endl;
 			cout << leadr.give_name() << " is a leader of the season" << " with " << season.CalcPoints(leadr.give_id(), season.give_rounds_size(), false) << " points." << endl;
 			cout << "Do you want more about this driver?" << "\n\tY/N" << "\n>> ";
 			string choice;
@@ -40,9 +42,11 @@ void UserInteraction(Season& season) {
 			if (choice[0] == 'Y' || choice[0] == 'y') {
 				season.ShowDriverStat(leadr.give_id(), season.give_rounds_size());
 			}
+			cout << square << endl;
 			return;
 		}},
 		{"DriverStats", [&season] {
+			string square(90, '-');
 			clearScreen();
 			int id, round;
 			cout << "	Enter number of the driver and round: (number space number)" << endl;
@@ -51,7 +55,9 @@ void UserInteraction(Season& season) {
 			season.PrintRounds();
 			cout << ">> "; cin >> id >> round;
 			id--;
+			cout << square << endl;
 			season.ShowDriverStat(id, round);
+			cout << square << endl;
 			return;
 		}},
 		{"WinEngine", [&season]() {
@@ -67,9 +73,11 @@ void UserInteraction(Season& season) {
 		}}, 
 		{"help", [&season]() {
 			clearScreen();
+			cout << "_________________________________________" << endl;
 			for (string& cm : commands) {
 				cout << "> " << cm << endl;
 			}
+			cout << "_________________________________________" << endl;
 		}}
 	};
 	//
