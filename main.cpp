@@ -74,17 +74,18 @@ void UserInteraction(Season& season) {
 	};
 	//
 	string line;
-	cout << "Type 'help' to get available commands. Type 'stop' to exit.\n\n>> ";
-	while (getline(cin, line)) {
-		if (line == "stop") return;
+	cout << "Type 'help' to get available commands. Type 'stop' to exit.\n>> ";
+	while (true) {
+		if (!getline(cin, line)) break;
+		if (line == "stop") break;
+
 		auto cmd = CommandList.find(line);
 		if (cmd != CommandList.end()) {
 			cmd->second();
-			cout << "	Enter the command:" << endl;
-			cout << ">> ";
+			cout << "	Enter the command:\n>> ";
 		}
-		else {
-			// cout << "Unknown command. Please try again." << endl;
+		else if (!line.empty()) {
+			cout << "Unknown command: \"" << line << "\". Type 'help' for list.\n>> ";
 		}
 	}
 }
