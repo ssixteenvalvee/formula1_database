@@ -12,6 +12,7 @@
 #include <functional>
 #define MAXPART 34 // In the whole history of Formula 1 no more than 34 cars participated in the race. (1953, Germany).
 
+enum {stringlim = 2};
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline, std::unordered_map;
 namespace fs = std::filesystem;
 using CommandHandler = std::function<void(std::istringstream&)>;
@@ -140,6 +141,8 @@ void Asktodo(Season& season) {
 	}
 }
 
+//
+
 int main()
 {
 	fs::path basePath = "alldata";
@@ -157,21 +160,21 @@ int main()
 		cout << "There is no data" << endl;
 		return 0;
 	}
-	cout << "	Please, choose the number of the season:" << endl;
+	cout << "\tPlease, choose the number of the season : " << endl;
 	int cnt = 1;
 	for (auto& option : seasons_str) {
 		cout << cnt << ". " << option << endl;
 		cnt++;
 	}
-	int choice; 
+	string choice; 
 	cout << ">> ";
 	cin >> choice;
-	while (choice > seasons_str.size() || choice < 0) {
-		cout << "Wrong Format" << endl;
+	while (!(choice.size() < stringlim) && !isdigit(choice)) {
+		cout << "Wrong Format\n>> ";
 		cin >> choice;
 	}
-	
-	fs::path Path = basePath/seasons_str[choice - 1]; // !!!
+	int int_choice = std::stoi(choice);
+	fs::path Path = basePath/seasons_str[int_choice - 1]; // !!!
 	Season season;
 	season.ScanData(Path);
 	while (true) {
