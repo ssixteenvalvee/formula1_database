@@ -17,6 +17,11 @@ namespace fs = std::filesystem;
 using CommandHandler = std::function<void(std::istringstream&)>;
 vector<string> commands = { "CalcDP: Calculate driver points", "LeadDriver: Show leader of the season", "DriverStats: Show driver stats.", "WinEngine: Show the most effective engine"};
 
+void CRUD(Season& season) {
+
+	return;
+}
+
 void UserInteraction(Season& season) {
 	unordered_map<string, std::function<void()>> CommandList{
 		{"CalcDP",[&season]() {
@@ -129,9 +134,20 @@ int main()
 		cin >> choice;
 	}
 	
-	fs::path Path = basePath/seasons_str[choice - 1];
+	fs::path Path = basePath/seasons_str[choice - 1]; // !!!
 	Season season;
 	season.ScanData(Path);
-	UserInteraction(season);
+	cout << "Would you like to moderate the info or read it?" << endl;
+	cout << "\t1. Read\t\t2. Moderate.\n>> ";
+	cin >> choice;
+	if (choice == 1) {
+		clearScreen();
+		cout << "Reading mode.\n";
+		UserInteraction(season);
+	}
+	else {
+		clearScreen();
+		CRUD(season);
+	}
 	return 0;
 }

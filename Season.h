@@ -26,6 +26,7 @@ public:
 	Season() = default;
 	size_t give_rounds_size();
 	void ScanData(fs::path Path);
+	void ModerateData(fs::path Path);
 	int CalcPoints(int driver_id, int round_id = -1, bool show = false);
 	void PrintDrivers();
 	void PrintRounds();

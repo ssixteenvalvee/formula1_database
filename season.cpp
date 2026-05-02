@@ -5,6 +5,7 @@
 #include "Round.h"
 #include "Driver.h"
 #include "Season.h"
+#include <nlohmann/json.hpp>
 #include <iostream>
 #include <vector>
 #include <fstream>
@@ -13,6 +14,7 @@
 #include <iomanip>
 #define M1 -1
 
+using json = nlohmann::json;
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline;
 
 //Season::Season() : engines(), drivers(), cars(), teams(), rounds() {}
@@ -20,115 +22,145 @@ using std::cin, std::cout, std::endl, std::vector, std::string, std::getline;
 void Season::ScanData(fs::path Path) {
 	std::ifstream in;
 	string line;
-	in.open(Path / "engines.txt");
+	in.open(Path / "engines.json");
 	if (in.is_open()) { // engine: engine_id, manufacturer, type, hp // e.g.: 0, Honda, V6, 1040;
-		int engine_id;
-		string manufacturer, type;
-		int horsepower;
-		while (std::getline(in, line)) {
-			std::istringstream ss(line);
-			string token;
-			getline(ss, token, ','); engine_id = std::stoi(token);
-			getline(ss, token, ','); manufacturer = token;
-			getline(ss, token, ','); type = token;
-			getline(ss, token, ','); horsepower = std::stoi(token);
-			Engine eng_temp(engine_id, manufacturer, type, horsepower);
-			engines.push_back(eng_temp);
+		json data;
+		try {
+			in >> data;
+		} catch (const json::parse_error& e) {
+			std::cerr << "Error parsing 'enignes.json': " << e.what() << std::endl;
+			return;
+		}
+		for (auto& item : data["engines"]) {
+			int id = item["id"];
+			string manufacturer = item["manufacturer"];
+			string type = item["type"];
+			int hp = item["horsepower"];
+			Engine engine(id, manufacturer, type, hp);
+			engines.push_back(engine);
 		}
 	}
+	else {
+		std::cerr << "Can not open 'engines.json'." << std::endl;
+		return;
+	}
 	in.close();
-	in.open(Path / "cars.txt");
+	in.open(Path / "cars.json");
 	if (in.is_open()) { // car: car_id, engine_id/manufacturer, chasis (its name) // example: 0, 0/Honda, RB21; // At the moment, we only use IDs.
-		int car_id;
-		int engine_id;
-		string chasis;
-		while (std::getline(in, line)) {
-			std::istringstream ss(line);
-			string token;
-			getline(ss, token, ','); car_id = std::stoi(token);
-			getline(ss, token, ','); engine_id = std::stoi(token);
-			getline(ss, token, ','); chasis = token;
+		json data;
+		try {
+			in >> data;
+		}
+		catch (const json::parse_error& e) {
+			std::cerr << "Error cars.json: " << e.what() << endl;
+			return;
+		}
+		for (auto& item : data["cars"]) {
+			int id = item["id"];
+			int engine_id = item["engine_id"];
+			string chassis = item["chassis"];
 			for (Engine& eng : engines) {
-				if (eng.give_id() == engine_id) { // we know the engine_id and we have an engine in vector. We need to give the car its engine.
-					Racecar car(car_id, eng, chasis);
+				if (eng.give_id() == engine_id) {
+					Racecar car(id, eng, chassis);
 					cars.push_back(car);
 				}
 			}
 		}
 	}
+	else {
+		cout << "Can not open cars.json." << endl;
+		return;
+	}
 	in.close();
-	in.open(Path / "drivers.txt");
+	in.open(Path / "drivers.json");
 	if (in.is_open()) { // driver: id, name, titles, wins, pole positions.
-		int id, t, w, pp;
-		string name;
-		while (getline(in, line)) {
-			std::istringstream ss(line);
-			string token;
-			getline(ss, token, ','); id = std::stoi(token);
-			getline(ss, token, ','); name = token;
-			getline(ss, token, ','); t = std::stoi(token);
-			getline(ss, token, ','); w = std::stoi(token);
-			getline(ss, token, ','); pp = std::stoi(token);
-			Driver driver(id, name, t, w, pp);
+		json data;
+		try {
+			in >> data;
+		}
+		catch (const json::parse_error& error) {
+			std::cerr << "Error drivers.json: " << error.what() << endl;
+			return;
+		}
+		for (auto& item : data["drivers"]) {
+			int id = item["id"];
+			string name = item["name"];
+			int titles = item["titles"];
+			int wins = item["wins"];
+			int points = item["points"];
+			Driver driver(id, name, titles, wins, points);
 			drivers.push_back(driver);
 		}
 	}
+	else {
+		cout << "Can not open 'drivers.json'." << endl;
+		return;
+	}
 	in.close();
-	in.open(Path / "teams.txt");
-	if (in.is_open()) { // team: id, name, car, driver1, driver2, titles, wins;
-		int id; string name; int car_id, driver1_id, driver2_id, t, w;
-		while (getline(in, line)) {
-			std::istringstream ss(line);
-			string token;
-			getline(ss, token, ','); id = std::stoi(token);
-			getline(ss, token, ','); name = token;
-			getline(ss, token, ','); car_id = std::stoi(token);
-			getline(ss, token, ','); driver1_id = std::stoi(token);
-			getline(ss, token, ','); driver2_id = std::stoi(token); // REMINDER FOR THE FUTURE: DO BINARY SEARCH.
-			getline(ss, token, ','); t = std::stoi(token);
-			getline(ss, token, ','); w = std::stoi(token);
+	in.open(Path / "teams.json");
+	if (in.is_open()) { // team: id, name, car_id, driver1_id, driver2_id, titles, wins;
+		json data;
+		try {
+			in >> data;
+		}
+		catch (const json::parse_error& error) {
+			std::cerr << "Error 'teams.json': " << error.what() << endl;
+		}
+		for (auto& item : data["teams"]) {
+			int id = item["id"];
+			string name = item["name"];
+			int car_id = item["car_id"], driver1_id = item["driver1_id"], driver2_id = item["driver2_id"];
+			int titles = item["titles"];
+			int wins = item["wins"];
 			for (Racecar& car : cars) {
 				if (car.give_id() == car_id) {
 					for (Driver& driver1 : drivers) {
-						if (driver1.give_id() == driver1_id) {
+						if (driver1.give_id() == driver1_id)
 							for (Driver& driver2 : drivers) {
 								if (driver2.give_id() == driver2_id) {
-									Team team(id, name, car, driver1, driver2, t, w);
+									Team team(id, name, car, driver1, driver2, titles, wins);
 									teams.push_back(team);
 								}
 							}
-						}
 					}
 				}
 			}
-		} // Fix.
+		}
+	}
+	else {
+		cout << "Can not open 'teams.json'." << endl;
+		return;
 	}
 	in.close();
-	in.open(Path / "rounds.txt");
-	if (in.is_open()) {
-		int id;
-		string place, date;
-		vector<int> positions;
-		positions.reserve(MAXPART);
-		string line;
-		while (getline(in, line)) {
-			if (line.empty()) continue;
-			std::istringstream ss(line);
-			string token;
-			getline(ss, token, ','); id = stoi(token);
-			getline(ss, token, ','); place = token;
-			getline(ss, token, ','); date = token;
-			positions.clear();
-			while (getline(ss, token, ',')) {
-				positions.push_back(stoi(token));
-			}
-			Round round(id, place, date, positions);
+	in.open(Path / "rounds.json");
+	if (in.is_open()) { // id, geographical_place, date, vector with driver's positions at the finish of the race.
+		json data;
+		try {
+			in >> data;
+		}
+		catch (const json::parse_error& error) {
+			std::cerr << "Error 'rounds.json': " << error.what() << endl;
+		}
+		for (auto& item : data["rounds"]) {
+			int id = item["id"];
+			string place = item["place"];
+			string date = item["date"];
+			vector<int> positions_ids = item["positions"];
+			Round round(id, place, date, positions_ids);
 			rounds.push_back(round);
 		}
+	}
+	else {
+		cout << "Can not open 'rounds.json'." << endl;
+		return;
 	}
 	in.close();
 	clearScreen();
 	cout << "> Scanning succesful <" << endl;
+}
+void Season::ModerateData(fs::path Path) {
+	std::fstream out;
+	string line;
 }
 size_t Season::give_rounds_size() {
 	return rounds.size();

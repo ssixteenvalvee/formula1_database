@@ -1,0 +1,103 @@
+{
+  "teams": [
+    {
+      "id": 0,
+      "name": "Mercedes",
+      "car_id": 1,
+      "driver1_id": 3,
+      "driver2_id": 4,
+      "titles": 8,
+      "wins": 125
+    },
+    {
+      "id": 1,
+      "name": "Ferrari",
+      "car_id": 4,
+      "driver1_id": 5,
+      "driver2_id": 6,
+      "titles": 16,
+      "wins": 240
+    },
+    {
+      "id": 2,
+      "name": "McLaren",
+      "car_id": 0,
+      "driver1_id": 1,
+      "driver2_id": 2,
+      "titles": 10,
+      "wins": 185
+    },
+    {
+      "id": 3,
+      "name": "Red Bull",
+      "car_id": 2,
+      "driver1_id": 0,
+      "driver2_id": 7,
+      "titles": 6,
+      "wins": 75
+    },
+    {
+      "id": 4,
+      "name": "Aston Martin",
+      "car_id": 10,
+      "driver1_id": 10,
+      "driver2_id": 11,
+      "titles": 1,
+      "wins": 2
+    },
+    {
+      "id": 5,
+      "name": "Alpine",
+      "car_id": 9,
+      "driver1_id": 14,
+      "driver2_id": 13,
+      "titles": 0,
+      "wins": 1
+    },
+    {
+      "id": 6,
+      "name": "Haas",
+      "car_id": 5,
+      "driver1_id": 16,
+      "driver2_id": 14,
+      "titles": 0,
+      "wins": 0
+    },
+    {
+      "id": 7,
+      "name": "Racing Bulls",
+      "car_id": 3,
+      "driver1_id": 19,
+      "driver2_id": 21,
+      "titles": 0,
+      "wins": 0
+    },
+    {
+      "id": 8,
+      "name": "Audi",
+      "car_id": 7,
+      "driver1_id": 17,
+      "driver2_id": 18,
+      "titles": 0,
+      "wins": 0
+    },
+    {
+      "id": 9,
+      "name": "Williams",
+      "car_id": 8,
+      "driver1_id": 12,
+      "driver2_id": 15,
+      "titles": 9,
+      "wins": 115
+    },
+    {
+      "id": 10,
+      "name": "Cadillac",
+      "car_id": 6,
+      "driver1_id": 18,
+      "driver2_id": 1,
+      "titles": 0,
+      "wins": 0
+    }
+  ]
+}

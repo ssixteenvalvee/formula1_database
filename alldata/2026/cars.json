@@ -1,0 +1,59 @@
+{
+  "cars": [
+    {
+      "id": 0,
+      "engine_id": 4,
+      "chassis": "Mercedes MCL51"
+    },
+    {
+      "id": 1,
+      "engine_id": 4,
+      "chassis": "Mercedes W17"
+    },
+    {
+      "id": 2,
+      "engine_id": 5,
+      "chassis": "Red Bull RB22"
+    },
+    {
+      "id": 3,
+      "engine_id": 5,
+      "chassis": "Racing Bulls Vcarb03"
+    },
+    {
+      "id": 4,
+      "engine_id": 2,
+      "chassis": "Ferrari SF-26"
+    },
+    {
+      "id": 5,
+      "engine_id": 2,
+      "chassis": "Haas VF-26"
+    },
+    {
+      "id": 6,
+      "engine_id": 2,
+      "chassis": "Cadillac MAC-26"
+    },
+    {
+      "id": 7,
+      "engine_id": 1,
+      "chassis": "Audi R26"
+    },
+    {
+      "id": 8,
+      "engine_id": 4,
+      "chassis": "Williams FW48"
+    },
+    {
+      "id": 9,
+      "engine_id": 4,
+      "chassis": "Alpine A526"
+    },
+    {
+      "id": 10,
+      "engine_id": 3,
+      "chassis": "Aston Martin AMR26"
+    }
+  ]
+}

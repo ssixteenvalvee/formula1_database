@@ -1,0 +1,40 @@
+{
+  "engines": [
+    {
+      "id": 0,
+      "manufacturer": "Alpine Racing",
+      "type": "V6 Turbo Hybrid",
+      "horsepower": 830
+    },
+    {
+      "id": 1,
+      "manufacturer": "Audi",
+      "type": "V6 Turbo Hybrid",
+      "horsepower": 850
+    },
+    {
+      "id": 2,
+      "manufacturer": "Ferrari",
+      "type": "V6 Turbo Hybrid",
+      "horsepower": 840
+    },
+    {
+      "id": 3,
+      "manufacturer": "Honda Racing Corporation",
+      "type": "V6 Turbo Hybrid",
+      "horsepower": 835
+    },
+    {
+      "id": 4,
+      "manufacturer": "Mercedes-AMG High Performance Powertrains",
+      "type": "V6 Turbo Hybrid",
+      "horsepower": 845
+    },
+    {
+      "id": 5,
+      "manufacturer": "Red Bull Ford",
+      "type": "V6 Turbo Hybrid",
+      "horsepower": 850
+    }
+  ]
+}
