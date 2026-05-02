@@ -15,10 +15,18 @@
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline, std::unordered_map;
 namespace fs = std::filesystem;
 using CommandHandler = std::function<void(std::istringstream&)>;
-vector<string> commands = { "CalcDP: Calculate driver points", "LeadDriver: Show leader of the season", "DriverStats: Show driver stats.", "WinEngine: Show the most effective engine"};
+vector<string> commands = { "CalcDP: Calculate driver points", 
+							"LeadDriver: Show leader of the season", 
+							"DriverStats: Show driver stats.", 
+							"WinEngine: Show the most effective engine" };
+
+//prototypes
+void CRUD(Season& season);
+void UserInteraction(Season& season);
+void Asktodo(Season& season);
 
 void CRUD(Season& season) {
-
+	cout << "Under Construction" << endl;
 	return;
 }
 
@@ -87,10 +95,14 @@ void UserInteraction(Season& season) {
 	};
 	//
 	string line;
-	cout << "Type 'help' to get available commands. Type 'stop' to exit.\n>> ";
+	cout << "Type 'help' to get available commands. Type 'stop' to exit and 'return' to return.\n>> ";
 	while (true) {
 		if (!getline(cin, line)) break;
 		if (line == "stop") break;
+		if (line == "return") {
+			clearScreen();
+			return;
+		}
 
 		auto cmd = CommandList.find(line);
 		if (cmd != CommandList.end()) {
@@ -100,6 +112,31 @@ void UserInteraction(Season& season) {
 		else if (!line.empty()) {
 			cout << "Unknown command: \"" << line << "\". Type 'help' for list.\n>> ";
 		}
+	}
+}
+
+void Asktodo(Season& season) {
+	int choice;
+	clearScreen();
+	cout << "Would you like to moderate the info or read it?" << endl;
+	cout << "\t1. Read\t\t2. Moderate.\t\t3. New season (directory).\n>> ";
+	cin >> choice;
+	switch (choice) {
+	case 1:
+		clearScreen();
+		cout << "Reading mode.\n";
+		UserInteraction(season);
+		break;
+	case 2:
+		clearScreen();
+		cout << "Moderating Mode.\n";
+		CRUD(season);
+		break;
+	case 3:
+		clearScreen();
+		cout << "Create new dir" << endl;
+		// under construction.
+		break;
 	}
 }
 
@@ -137,17 +174,14 @@ int main()
 	fs::path Path = basePath/seasons_str[choice - 1]; // !!!
 	Season season;
 	season.ScanData(Path);
-	cout << "Would you like to moderate the info or read it?" << endl;
-	cout << "\t1. Read\t\t2. Moderate.\n>> ";
-	cin >> choice;
-	if (choice == 1) {
-		clearScreen();
-		cout << "Reading mode.\n";
-		UserInteraction(season);
-	}
-	else {
-		clearScreen();
-		CRUD(season);
+	while (true) {
+		Asktodo(season);
+		cout << "Would you like to continue? \n\tY/N\n>> ";
+		char c; cin >> c;
+		if (c == 'y' || c == 'Y') {
+			continue;
+		}
+		else break;
 	}
 	return 0;
 }
