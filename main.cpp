@@ -10,11 +10,13 @@
 #include <sstream>
 #include <filesystem>
 #include <functional>
+#include <nlohmann/json.hpp>
 #define MAXPART 34 // In the whole history of Formula 1 no more than 34 cars participated in the race. (1953, Germany).
 
-enum {stringlim = 2};
+enum {stringlim = 2, seasonlim = 4, minyear = 1950};
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline, std::unordered_map;
 namespace fs = std::filesystem;
+using json = nlohmann::json;
 using CommandHandler = std::function<void(std::istringstream&)>;
 vector<string> commands = { "CalcDP: Calculate driver points", 
 							"LeadDriver: Show leader of the season", 
@@ -25,6 +27,59 @@ vector<string> commands = { "CalcDP: Calculate driver points",
 void CRUD(Season& season);
 void UserInteraction(Season& season);
 void Asktodo(Season& season);
+void CreateNewDir(fs::path Path);
+
+void CreateNewDir(fs::path BasePath) {
+	cout << ">\tPlease, enter the year of the season.\n>> ";
+	string choice;
+	int choice_int;
+	cin >> choice;
+	if (isdigit(choice)) {
+		choice_int = stoi(choice);
+		if (choice_int >= minyear && choice_int <= 9999) {
+			fs::path newPath = BasePath / choice;
+			if (fs::create_directories(newPath)) {
+				cout << "> Creating the " << choice << " folder ...\n";
+				// engines.json;
+				json Engines_array = json::array();
+				json enginesWrap = { {"engines", Engines_array} };
+				std::ofstream enginesFile(newPath / "engines.json");
+				enginesFile << enginesWrap.dump(4);
+				// cars.json;
+				json Cars_array = json::array();
+				json carsWrap = { {"cars", Cars_array} };
+				std::ofstream carsFile(newPath / "cars.json");
+				carsFile << carsWrap.dump(4);
+				// drivers.json
+				json Drivers_array = json::array();
+				json driversWrap = { {"drivers", Drivers_array} };
+				std::ofstream driversFile(newPath / "drivers.json");
+				driversFile << driversWrap.dump(4);
+				// teams.json
+				json Teams_array = json::array();
+				json teamsWrap = { {"teams", Teams_array} };
+				std::ofstream teamsFile(newPath / "teams.json");
+				teamsFile << teamsWrap.dump(4);
+				// rounds.json
+				json Rounds_array = json::array();
+				json roundsWrap = { {"rounds", Rounds_array} };
+				std::ofstream roundsFile(newPath / "rounds.json");
+				roundsFile << roundsWrap.dump(4);
+				cout << "> Good! " << choice << " directory is succesfully created.\n";
+				cout << "> You can fill the information with Moderating mode now.\n";
+			}
+			else {
+				cout << "> This folder already exists!\n";
+				return;
+			}
+		}
+		else {
+			cout << "> Wrong format. Please enter the valid data:\n> 1. It is greater than 1949\n> 2. It is less than 10 thousand.\n";
+			return;
+		}
+	}
+	return;
+}
 
 void CRUD(Season& season) {
 	cout << "Under Construction" << endl;
@@ -116,7 +171,7 @@ void UserInteraction(Season& season) {
 	}
 }
 
-void Asktodo(Season& season) {
+void Asktodo(Season& season, fs::path BasePath) {
 	int choice;
 	clearScreen();
 	cout << "Would you like to moderate the info or read it?" << endl;
@@ -126,6 +181,7 @@ void Asktodo(Season& season) {
 	case 1:
 		clearScreen();
 		cout << "Reading mode.\n";
+		season.ScanData(BasePath);
 		UserInteraction(season);
 		break;
 	case 2:
@@ -136,7 +192,7 @@ void Asktodo(Season& season) {
 	case 3:
 		clearScreen();
 		cout << "Create new dir" << endl;
-		// under construction.
+		CreateNewDir(BasePath);
 		break;
 	}
 }
@@ -146,39 +202,9 @@ void Asktodo(Season& season) {
 int main()
 {
 	fs::path basePath = "alldata";
-	if (!fs::exists(basePath) || !fs::is_directory(basePath)) {
-		cout << "Directory is not found. Do something.\n";
-		return 0;
-	}
-	vector<string> seasons_str;
-	for (const auto& dir : fs::directory_iterator(basePath)) {
-		if (dir.is_directory()) {
-			seasons_str.push_back(dir.path().filename().string());
-		}
-	}
-	if (seasons_str.empty()) {
-		cout << "There is no data" << endl;
-		return 0;
-	}
-	cout << "\tPlease, choose the number of the season : " << endl;
-	int cnt = 1;
-	for (auto& option : seasons_str) {
-		cout << cnt << ". " << option << endl;
-		cnt++;
-	}
-	string choice; 
-	cout << ">> ";
-	cin >> choice;
-	while (!(choice.size() < stringlim) && !isdigit(choice)) {
-		cout << "Wrong Format\n>> ";
-		cin >> choice;
-	}
-	int int_choice = std::stoi(choice);
-	fs::path Path = basePath/seasons_str[int_choice - 1]; // !!!
 	Season season;
-	season.ScanData(Path);
 	while (true) {
-		Asktodo(season);
+		Asktodo(season, basePath);
 		cout << "Would you like to continue? \n\tY/N\n>> ";
 		char c; cin >> c;
 		if (c == 'y' || c == 'Y') {

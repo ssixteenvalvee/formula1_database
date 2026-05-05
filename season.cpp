@@ -14,12 +14,42 @@
 #include <iomanip>
 #define M1 -1
 
+enum { stringlim = 2, seasonlim = 4, minyear = 1950 };
 using json = nlohmann::json;
 using std::cin, std::cout, std::endl, std::vector, std::string, std::getline;
 
 //Season::Season() : engines(), drivers(), cars(), teams(), rounds() {}
 // Season::Season(vector<Engine> engs, vector<Driver> drvrs, vector<Racecar> cars, vector<Team> teams, vector<Round> rnds) {}
-void Season::ScanData(fs::path Path) {
+void Season::ScanData(fs::path basePath) {
+	if (!fs::exists(basePath) || !fs::is_directory(basePath)) {
+		cout << "Directory is not found. Do something.\n";
+		return;
+	}
+	vector<string> seasons_str;
+	for (const auto& dir : fs::directory_iterator(basePath)) {
+		if (dir.is_directory()) {
+			seasons_str.push_back(dir.path().filename().string());
+		}
+	}
+	if (seasons_str.empty()) {
+		cout << "There is no data" << endl;
+		return;
+	}
+	cout << "\tPlease, choose the number of the season : " << endl;
+	int cnt = 1;
+	for (auto& option : seasons_str) {
+		cout << cnt << ". " << option << endl;
+		cnt++;
+	}
+	string year;
+	cout << ">> ";
+	cin >> year;
+	while (!(year.size() < stringlim) && !isdigit(year)) {
+		cout << "Wrong Format\n>> ";
+		cin >> year;
+	}
+	int int_year = std::stoi(year);
+	fs::path Path = basePath / seasons_str[int_year - 1];
 	std::ifstream in;
 	string line;
 	in.open(Path / "engines.json");
