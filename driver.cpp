@@ -3,7 +3,7 @@
 
 string format_name(string &name) {
 	name[0] = toupper(name[0]);
-	for (int i = 0; i < name.size(); i++) {
+	for (size_t i = 0; i < name.size(); i++) {
 		char& ch = name[i];
 		if (ch == 95) {
 			ch = 32; // ASCII "_" = 95, " " = 32;

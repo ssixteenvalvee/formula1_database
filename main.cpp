@@ -18,12 +18,14 @@ using std::cin, std::cout, std::endl, std::vector, std::string, std::getline, st
 namespace fs = std::filesystem;
 using json = nlohmann::json;
 using CommandHandler = std::function<void(std::istringstream&)>;
-vector<string> commands = { "CalcDP: Calculate driver points", 
+vector<string> UI_commands = { "CalcDP: Calculate driver points", 
 							"LeadDriver: Show leader of the season", 
 							"DriverStats: Show driver stats.", 
 							"WinEngine: Show the most effective engine" };
+vector<string> CRUD_commands = { "help: if you're a new boy here." };
 
 //prototypes
+//
 void CRUD(Season& season);
 void UserInteraction(Season& season);
 void Asktodo(Season& season);
@@ -82,12 +84,42 @@ void CreateNewDir(fs::path BasePath) {
 }
 
 void CRUD(Season& season) {
-	cout << "Under Construction" << endl;
-	return;
+	unordered_map < string, std::function<void()>> CRUD_CommandList{
+		{"help", [&season]() {
+		string square(90, '-');
+		clearScreen();
+		cout << "> List of commands:\n";
+		cout << square << endl;
+		for (string& cmd : CRUD_commands) {
+			cout << cmd << endl;
+		}
+		cout << square << endl;
+		return;
+		}}
+	};
+	//
+	cout << "To get a list with commands type 'help'; To return type 'return'\n>> ";
+	string line;
+	while (true) {
+		if (!getline(cin, line)) break;
+		if (line == "stop") break;
+		if (line == "return") {
+			clearScreen();
+			return;
+		}
+		auto cmd = CRUD_CommandList.find(line);
+		if (cmd != CRUD_CommandList.end()) {
+			cmd->second();
+			cout << "	Enter the command:\n>> ";
+		}
+		else if (!line.empty()) {
+			cout << "Unknown command: \"" << line << "\". Type 'help' for list.\n>> ";
+		}
+	}
 }
 
 void UserInteraction(Season& season) {
-	unordered_map<string, std::function<void()>> CommandList{
+	unordered_map<string, std::function<void()>> UI_CommandList{
 		{"CalcDP",[&season]() {
 			clearScreen();
 			int id, round_id;
@@ -143,7 +175,7 @@ void UserInteraction(Season& season) {
 		{"help", [&season]() {
 			clearScreen();
 			cout << "_________________________________________" << endl;
-			for (string& cm : commands) {
+			for (string& cm : UI_commands) {
 				cout << "> " << cm << endl;
 			}
 			cout << "_________________________________________" << endl;
@@ -160,8 +192,8 @@ void UserInteraction(Season& season) {
 			return;
 		}
 
-		auto cmd = CommandList.find(line);
-		if (cmd != CommandList.end()) {
+		auto cmd = UI_CommandList.find(line);
+		if (cmd != UI_CommandList.end()) {
 			cmd->second();
 			cout << "	Enter the command:\n>> ";
 		}
@@ -210,7 +242,10 @@ int main()
 		if (c == 'y' || c == 'Y') {
 			continue;
 		}
-		else break;
+		else {
+			cout << "> OK, Bye then.\n";
+			break;
+		}
 	}
 	return 0;
 }
